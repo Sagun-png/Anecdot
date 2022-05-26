@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+{% for post in posts %}
+<article class="media content-section">
+    <img class="rounded-circle article-img"
+        src="{{ url_for('static', filename='profile_pics/' + post.image_file) }}">
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2"
+                href="{{ url_for('user_posts', username=post.username) }}">{{ post.username }}</a>
+            <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+            <!-- <a href="{{ url_for('like_post', post_id=post.id) }}"><i onclick="like(this)" style="float: right;" {% if post.liked %}
+                class="bi bi-heart-fill"
+            {% else %} class="bi bi-heart" {% endif %}> {{ post.likes }}</i></a> -->
+            <p class='like_heart'><i id='tot_likes_{{post.id}}' data-id={{post.id}} onclick="like(this)" style="float: right;" {% if post.liked %}
+                class="bi bi-heart-fill"
+            {% else %} class="bi bi-heart" {% endif %}> {{ post.likes }}</i></p>
+        </div>
+        <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
+        <p class="article-content readMore">{{ post.content }}</p>
+    </div>
+</article>
+{% endfor %}
+{% endblock content %}
+
+{% block latest %}
+    <li><a href="{{ url_for('post', post_id=postName[1]) }}">{{postName[0]}}</a></li>
+{% endblock latest %}
+
+{% block trending %}
+    {% for trend in trendings %}
+        <li><a href="{{ url_for('post', post_id=trend.id) }}">{{trend.title}}</a> - {{trend.cnt}} likes</li>
+    {% endfor %}
+{% endblock trending %}
+
+<!-- <script>
+    function like(x){
+        x.classList.toggle("bi-heart-fill"); 
+        console.log(x);
+        // $.ajax({
+        //     type: "POST",
+        //     url: "/process_qtc",
+        //     data: JSON.stringify(server_data),
+        //     contentType: "application/json",
+        //     dataType: 'json',
+        //     success: function(result) {
+        //         numRows.innerHTML = result.rows; 
+        //     } 
+        // });
+    }
+</script> -->

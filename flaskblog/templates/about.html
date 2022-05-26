@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1>About Page</h1>
+{% endblock content %}
+
+{% block latest %}
+    <li><a href="{{ url_for('post', post_id=postName[1]) }}">{{postName[0]}}</a></li>
+{% endblock latest %}
+
+{% block trending %}
+    {% for trend in trendings %}
+        <li><a href="{{ url_for('post', post_id=trend.id) }}">{{trend.title}}</a> - {{trend.cnt}} likes</li>
+    {% endfor %}
+{% endblock trending %}
